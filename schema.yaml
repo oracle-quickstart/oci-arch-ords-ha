@@ -27,7 +27,7 @@
       variables:
       - ATP_password
       - ATP_private_endpoint 
-      - number_of_compute
+      - number_of_midtiers
       - compartment_ocid
       - availability_domain_name
       - show_advanced
@@ -93,7 +93,7 @@
         title: Region
         description: "Region where you want to deploy the resources defined by this stack."
 
-      number_of_compute:
+      number_of_midtiers:
         type: number
         required: true
         visibile: true

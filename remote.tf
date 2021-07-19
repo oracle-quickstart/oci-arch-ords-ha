@@ -3,11 +3,11 @@
 
 resource "null_resource" "compute-script1" {
   depends_on = [oci_core_instance.compute_instance, oci_database_autonomous_database.ATPdatabase, oci_core_network_security_group_security_rule.ATPSecurityEgressGroupRule, oci_core_network_security_group_security_rule.ATPSecurityIngressGroupRules]
-  
-  # Install ORDS, SQLcl and set up the firewall rules
-  provisioner "remote-exec" {
 
     count         = var.number_of_midtiers
+
+  # Install ORDS, SQLcl and set up the firewall rules
+  provisioner "remote-exec" {
 
     connection {
       type        = "ssh"
@@ -42,10 +42,17 @@ resource "null_resource" "compute-script1" {
 
   # ADB Wallet
 
-resource "local_file" "autonomous_data_warehouse_wallet_file" {
-  content_base64 = oci_database_autonomous_database_wallet.ATP_database_wallet.content
-  filename       = ${var.ATP_tde_wallet_zip_file}
+  provisioner "local-exec" {
+    command = "echo '${oci_database_autonomous_database_wallet.ATP_database_wallet.content}' >> ${var.ATP_tde_wallet_zip_file}_encoded"
+  }
 
+  provisioner "local-exec" {
+    command = "base64 --decode ${var.ATP_tde_wallet_zip_file}_encoded > ${var.ATP_tde_wallet_zip_file}"
+  }
+
+  provisioner "local-exec" {
+    command = "rm -rf ${var.ATP_tde_wallet_zip_file}_encoded"
+  }
 
   provisioner "file" {
     connection {
@@ -79,7 +86,7 @@ resource "local_file" "autonomous_data_warehouse_wallet_file" {
         "sudo su - oracle -c 'sed -i 's/PASSWORD_HERE/${var.ATP_password}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",
         "sudo su - oracle -c 'sed -i 's/DATABASE_NAME_HERE/${var.ATP_database_db_name}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",  
         "sudo su - oracle -c 'java -jar /opt/oracle/ords/ords.war configdir /opt/oracle/ords/conf'",
-        "sudo su - oracle -c 'sql -cloudconfig /tmp/wallet.zip admin/${var.admin_password}@${var.database_name}_high @/opt/oracle/ords/conf/ords/create_user.sql'",
+        "sudo su - oracle -c 'sql -cloudconfig /tmp/wallet.zip admin/${var.ATP_database_db_name}@${var.ATP_database_db_name}_high @/opt/oracle/ords/conf/ords/create_user.sql'",
         "sudo su - oracle -c 'java -jar -Duser.timezone=UTC /opt/oracle/ords/ords.war standalone &'",
         ]
 

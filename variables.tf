@@ -65,7 +65,7 @@ variable "linux_os_version" {
   default     = "7.9"
 }
 
-variable "number_of_compute" {}
+variable "number_of_midtiers" {}
 
 variable "instance_shape" {
   default = "VM.Standard.E3.Flex"
