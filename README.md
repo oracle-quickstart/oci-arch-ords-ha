@@ -4,7 +4,7 @@
 
 About
 
-For details of the architecture, see [_Deploy a highly available web application_](https://docs.oracle.com/en/solutions/ha-web-app/index.html)
+For details of the architecture, see [_Deploy Oracle REST Data Services with High Availability in OCI_](https://docs.oracle.com/en/solutions/arch-ords-ha/index.html)
 
 ## Prerequisites
 
