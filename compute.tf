@@ -1,25 +1,7 @@
 ## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
-# This Terraform script provisions N compute instances
-
-#data "template_file" "key_script" {
-#  template = file("${path.module}/scripts/sshkey.tpl")
-#  vars = {
-#    ssh_public_key = tls_private_key.public_private_key_pair.public_key_openssh
-#  }
-#}
-
-#data "template_cloudinit_config" "cloud_init" {
-#  gzip          = true
-#  base64_encode = true
-
-#  part {
-#    filename     = "ainit.sh"
-#    content_type = "text/x-shellscript"
-#    content      = data.template_file.key_script.rendered
-#  }
-#}
+# This Terraform script provisions N compute instances and installs ORDS on each one
 
 # Create Compute Instance
 
