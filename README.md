@@ -6,6 +6,8 @@
 
 About
 
+Options/Variables
+
 For details of the architecture, see [_Deploy Oracle REST Data Services with High Availability in OCI_](https://docs.oracle.com/en/solutions/arch-ords-ha/index.html)
 
 ## Prerequisites
@@ -37,3 +39,9 @@ If you don't have the required permissions and quota, contact your tenancy admin
 7. If no further changes are necessary, return to the Stack Details page, click **Terraform Actions**, and select **Apply**. 
 
 8. When the job is finished, you will see the Load Balancer IP/URL for accessing Database Actions for your Autonomous Database. Login with the **ADMIN** user and the password you supplied when creating the job.
+
+## Topology
+
+The following diagram shows the topology created by this stack.
+
+# ![OCI ORDS HA Arch diagram](./images/ha-ords-oci.png)
