@@ -71,8 +71,8 @@ resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGrou
   source_type = "CIDR_BLOCK"
   tcp_options {
     destination_port_range {
-      max = 5000
-      min = 5000
+      max = 8080
+      min = 8080
     }
   }
 }

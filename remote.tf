@@ -13,9 +13,9 @@ resource "null_resource" "compute-script1" {
       type        = "ssh"
       user        = "opc"
       host        = oci_core_instance.compute_instance[count.index].public_ip
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      private_key =  tls_private_key.key.private_key_pem
       agent       = false
-      timeout     = "10m"
+      timeout     = "2m"
     }
       inline = [
         "sudo yum install ords -y",
@@ -32,12 +32,12 @@ resource "null_resource" "compute-script1" {
       type        = "ssh"
       user        = "opc"
       host        = oci_core_instance.compute_instance[count.index].public_ip
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      private_key = tls_private_key.key.private_key_pem
       agent       = false
-      timeout     = "10m"
+      timeout     = "2m"
     }
     source      = "${path.module}/ords/ords_conf.zip"
-    destination = "/opt/oracle/ords/"
+    destination = "/home/opc/ords_conf.zip"
   }
 
   # ADB Wallet
@@ -59,9 +59,9 @@ resource "null_resource" "compute-script1" {
       type        = "ssh"
       user        = "opc"
       host        = oci_core_instance.compute_instance[count.index].public_ip
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      private_key =  tls_private_key.key.private_key_pem
       agent       = false
-      timeout     = "10m"
+      timeout     = "2m"
     }
     source      = var.ATP_tde_wallet_zip_file
     destination = "/home/opc/${var.ATP_tde_wallet_zip_file}"
@@ -74,19 +74,25 @@ resource "null_resource" "compute-script1" {
       type        = "ssh"
       user        = "opc"
       host        = oci_core_instance.compute_instance[count.index].public_ip
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      private_key = tls_private_key.key.private_key_pem
       agent       = false
-      timeout     = "10m"
+      timeout     = "2m"
     }
 
 
         inline = [  
+        "sudo mv /home/opc/tde_wallet*.zip /home/oracle/wallet.zip",
+        "sudo chown oracle:oinstall /home/oracle/wallet.zip",
+        "sudo mv /home/opc/ords_conf.zip /opt/oracle/ords/",
+        "sudo chown oracle:oinstall /opt/oracle/ords/ords_conf.zip",     
         "sudo su - oracle -c 'unzip -q /opt/oracle/ords/ords_conf.zip -d /opt/oracle/ords/'",
         "sudo su - oracle -c 'sed -i 's/PASSWORD_HERE/${var.ATP_password}/g' /opt/oracle/ords/conf/ords/create_user.sql'",
+        "sudo su - oracle -c 'sed -i 's/_NODE_NUMBER/${count.index}/g' /opt/oracle/ords/conf/ords/create_user.sql'",        
         "sudo su - oracle -c 'sed -i 's/PASSWORD_HERE/${var.ATP_password}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",
-        "sudo su - oracle -c 'sed -i 's/DATABASE_NAME_HERE/${var.ATP_database_db_name}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",  
+        "sudo su - oracle -c 'sed -i 's/DATABASE_NAME_HERE/${var.ATP_database_db_name}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",
+        "sudo su - oracle -c 'sed -i 's/_NODE_NUMBER/${count.index}/g' /opt/oracle/ords/conf/ords/conf/apex_pu.xml'",        
         "sudo su - oracle -c 'java -jar /opt/oracle/ords/ords.war configdir /opt/oracle/ords/conf'",
-        "sudo su - oracle -c 'sql -cloudconfig /tmp/wallet.zip admin/${var.ATP_database_db_name}@${var.ATP_database_db_name}_high @/opt/oracle/ords/conf/ords/create_user.sql'",
+        "sudo su - oracle -c 'sql -cloudconfig /home/oracle/wallet.zip admin/${var.ATP_password}@${var.ATP_database_db_name}_high @/opt/oracle/ords/conf/ords/create_user.sql'",
         "sudo su - oracle -c 'java -jar -Duser.timezone=UTC /opt/oracle/ords/ords.war standalone &'",
         ]
 

@@ -29,7 +29,7 @@
       - ATP_private_endpoint 
       - number_of_midtiers
       - compartment_ocid
-      - availability_domain_name
+      - availability_domain_name      
       - show_advanced
 
     - title: Load Balancer Optional Configuration
@@ -46,7 +46,7 @@
           and:
             - show_advanced
       variables:
-      - ssh_public_key
+#      - ssh_public_key
       - instance_os
       - linux_os_version 
       - instance_shape
@@ -171,12 +171,6 @@
             - eq:
               - lb_shape 
               - "flexible"
-
-      ssh_public_key:
-        type: oci:core:ssh:publickey
-        title: "Public SSH Key"
-        description: "Choose public SSH Key to be uploaded into compute instances."
-        required: false
 
       instance_shape:
         type: oci:core:instanceshape:name

@@ -1,8 +1,7 @@
-output "loadbalancer_public_url" {
-  value = "http://${oci_load_balancer.lb1.ip_addresses[0]}"
+output "sql-developer_Web_URL" {
+  value = "http://${oci_load_balancer.lb1.ip_addresses[0]}/ords/sql-developer"
 }
 
-output "generated_ssh_private_key" {
-  value = tls_private_key.public_private_key_pair.private_key_pem
-  sensitive = true
-}
+output "SSH_PRIVATE_KEY" { value = "${tls_private_key.key.private_key_pem}" }
+
+output "SSH_PUBLIC_KEY" { value = "${tls_private_key.key.public_key_openssh}" }

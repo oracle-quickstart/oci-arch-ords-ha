@@ -22,8 +22,9 @@ resource "oci_database_autonomous_database" "ATPdatabase" {
 }
 
 resource "random_string" "wallet_password" {
-  length  = 16
-  special = true
+  length  = 12
+  special = false
+  min_numeric = 2
 }
 
 resource "oci_database_autonomous_database_wallet" "ATP_database_wallet" {

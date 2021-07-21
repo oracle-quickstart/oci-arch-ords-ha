@@ -3,23 +3,23 @@
 
 # This Terraform script provisions N compute instances
 
-data "template_file" "key_script" {
-  template = file("${path.module}/scripts/sshkey.tpl")
-  vars = {
-    ssh_public_key = tls_private_key.public_private_key_pair.public_key_openssh
-  }
-}
+#data "template_file" "key_script" {
+#  template = file("${path.module}/scripts/sshkey.tpl")
+#  vars = {
+#    ssh_public_key = tls_private_key.public_private_key_pair.public_key_openssh
+#  }
+#}
 
-data "template_cloudinit_config" "cloud_init" {
-  gzip          = true
-  base64_encode = true
+#data "template_cloudinit_config" "cloud_init" {
+#  gzip          = true
+#  base64_encode = true
 
-  part {
-    filename     = "ainit.sh"
-    content_type = "text/x-shellscript"
-    content      = data.template_file.key_script.rendered
-  }
-}
+#  part {
+#    filename     = "ainit.sh"
+#    content_type = "text/x-shellscript"
+#    content      = data.template_file.key_script.rendered
+#  }
+#}
 
 # Create Compute Instance
 
@@ -56,8 +56,8 @@ resource "oci_core_instance" "compute_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = local.ssh_public_key
-    user_data = data.template_cloudinit_config.cloud_init.rendered
+    ssh_authorized_keys = tls_private_key.key.public_key_openssh
+    #user_data = data.template_cloudinit_config.cloud_init.rendered
   }
 
   defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }

@@ -6,7 +6,7 @@
 resource "oci_core_virtual_network" "vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
-  display_name   = "web-app-vcn"
+  display_name   = "ords-ha-vcn"
   dns_label      = "tfexamplevcn"
   defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
   lifecycle {

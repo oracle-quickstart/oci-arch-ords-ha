@@ -35,12 +35,16 @@ variable "release" {
   default     = "1.2"
 }
 
-variable "ssh_public_key" {
-  default = ""
-}
+#variable "ssh_public_key" {
+#  default = ""
+#}
 variable "ssh_public_key_path" {
   default = ""
 }
+
+#variable "ssh_provided_key" {
+#  default = ""
+#}
 
 variable "lb_shape" {
   default = "flexible"
@@ -68,7 +72,7 @@ variable "linux_os_version" {
 variable "number_of_midtiers" {}
 
 variable "instance_shape" {
-  default = "VM.Standard.E3.Flex"
+  default = "VM.Standard.E4.Flex"
 }
 
 variable "instance_flex_shape_ocpus" {
@@ -141,6 +145,6 @@ locals {
   is_flexible_node_shape = contains(local.compute_flexible_shapes, var.instance_shape)
 
   availability_domain_name = var.availability_domain_name == "" ? lookup(data.oci_identity_availability_domains.ads.availability_domains[var.availability_domain], "name") : var.availability_domain_name
-  private_key              = var.private_key == "" ? file(var.private_key_path) : var.private_key
-  ssh_public_key           = var.ssh_public_key == "" ? file(var.ssh_public_key_path) : var.ssh_public_key
+  #private_key              = var.private_key == "" ? file(var.private_key_path) : var.private_key
+  #ssh_public_key           = var.ssh_public_key == "" ? file(var.ssh_public_key_path) : var.ssh_public_key
 }
