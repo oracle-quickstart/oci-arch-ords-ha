@@ -1,16 +1,33 @@
 # ![ORDS Logo](./images/logo.png)
 
-# oci-arch-ords-ha
-(prereq reminder)[https://github.com/oracle-quickstart/oci-prerequisites]
+# Deploy Oracle REST Data Services with High Availability in OCI (oci-arch-ords-ha)
 
+The Deploy Oracle REST Data Services with High Availability in OCI reference architecture will create a sample deployment in OCI showcasing how easy it is to get HA with ORDS. The Resource Manager template will automatically deploy a load balancer that will front end N ORDS compute nodes. What N equal is up to you. These ORDS mid-tiers are all connecting back to an Autonomous Database. We use an Autonomous Database in this sample deployment but in a real production deployment, the database could be an Autonomous Database, a VM Database or an ExaCS Database. Lastly, this sample is using HTTP and not HTTPs. For Production deployment it is strongly encouraged to use HTTPS from at least the client to the load balancer.
 
-About
+When creating this Resource Manager Stack, you will have a few options to choose as part of the Required Configuration step.
 
-Options/Variables
+![Required Configuration Step](./images/rc.png)
+
+- ATP Database Password for ADMIN user
+    Provide a password for the ATP ADMIN user. The rules are: **Password must be 12 to 30 characters and contain at least one uppercase letter, one lowercase letter, and one number. The password cannot contain the double quote (") character or the username "admin".**
+
+- ATP Database Private Endpoint
+    Check this checkbox if you want your Autonomous Database to be in a private subnet and not have a public IP.
+
+- Number of compute instances for ORDS
+    Set the number of compute instances you want created for ORDS HA with this option.
+
+-  Compartment
+    What compartment do you want these resources/services created in. Defaults to your current compartment.
+
+- Availability Domain to be chosen
+    Use the dropdown select list to choose an Availability Domain to create the resources/services in.
 
 For details of the architecture, see [_Deploy Oracle REST Data Services with High Availability in OCI_](https://docs.oracle.com/en/solutions/arch-ords-ha/index.html)
 
 ## Prerequisites
+
+[Quickstart Prerequisites](https://github.com/oracle-quickstart/oci-prerequisites)
 
 - Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `vcns`, `internet-gateways`, `route-tables`, `network-security-groups`, `subnets`, `autonomous-database-family`, and `instances`.
 
