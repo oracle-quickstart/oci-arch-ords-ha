@@ -3,6 +3,14 @@
 
 # This Terraform script provisions N compute instances and installs ORDS on each one
 
+# Create Random List of Fault Domains
+
+resource "random_shuffle" "fd" {
+  input        = ["FAULT-DOMAIN-1", "FAULT-DOMAIN-2", "FAULT-DOMAIN-3"]
+  result_count = var.number_of_midtiers
+}
+
+
 # Create Compute Instance
 
 resource "oci_core_instance" "compute_instance" {
@@ -24,7 +32,7 @@ resource "oci_core_instance" "compute_instance" {
     }
   }
 
-# fault_domain        = "FAULT-DOMAIN-1"
+ fault_domain        = "${random_shuffle.fd.result[count.index]}"
 
   source_details {
     source_type             = "image"
