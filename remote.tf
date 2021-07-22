@@ -1,6 +1,16 @@
 ## Copyright © 2020, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
+  # ADB Wallet
+
+resource "local_file" "autonomous_data_warehouse_wallet_file" {
+  content_base64 = oci_database_autonomous_database_wallet.ATP_database_wallet.content
+  filename       = "${var.ATP_tde_wallet_zip_file}"
+
+
+}
+
+
 resource "null_resource" "compute-script1" {
   depends_on = [oci_core_instance.compute_instance, oci_database_autonomous_database.ATPdatabase, oci_core_network_security_group_security_rule.ATPSecurityEgressGroupRule, oci_core_network_security_group_security_rule.ATPSecurityIngressGroupRules]
 
@@ -38,20 +48,6 @@ resource "null_resource" "compute-script1" {
     }
     source      = "${path.module}/ords/ords_conf.zip"
     destination = "/home/opc/ords_conf.zip"
-  }
-
-  # ADB Wallet
-
-  provisioner "local-exec" {
-    command = "echo '${oci_database_autonomous_database_wallet.ATP_database_wallet.content}' >> ${var.ATP_tde_wallet_zip_file}_encoded"
-  }
-
-  provisioner "local-exec" {
-    command = "base64 --decode ${var.ATP_tde_wallet_zip_file}_encoded > ${var.ATP_tde_wallet_zip_file}"
-  }
-
-  provisioner "local-exec" {
-    command = "rm -rf ${var.ATP_tde_wallet_zip_file}_encoded"
   }
 
   provisioner "file" {
