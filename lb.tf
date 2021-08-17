@@ -1,4 +1,4 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 locals {
@@ -6,11 +6,11 @@ locals {
 }
 
 resource "oci_load_balancer" "lb1" {
-  shape          = var.lb_shape
+  shape = var.lb_shape
   lifecycle {
-    ignore_changes = [ defined_tags["Oracle-Tags.CreatedBy"], defined_tags["Oracle-Tags.CreatedOn"] ]
+    ignore_changes = [defined_tags["Oracle-Tags.CreatedBy"], defined_tags["Oracle-Tags.CreatedOn"]]
   }
-  
+
   dynamic "shape_details" {
     for_each = local.is_flexible_lb_shape ? [1] : []
     content {
@@ -18,16 +18,16 @@ resource "oci_load_balancer" "lb1" {
       maximum_bandwidth_in_mbps = var.flex_lb_max_shape
     }
   }
-  
+
   compartment_id = var.compartment_ocid
 
   subnet_ids = [
     oci_core_subnet.subnet_1.id,
   ]
 
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 
-  display_name = "load-balancer"
+  display_name               = "load-balancer"
   network_security_group_ids = [oci_core_network_security_group.LBSecurityGroup.id]
 }
 
@@ -37,11 +37,11 @@ resource "oci_load_balancer_backend_set" "lb-bes1" {
   policy           = "ROUND_ROBIN"
 
   health_checker {
-    port                = "8080"
-    protocol            = "TCP"
-    interval_ms         = "10000"
-    timeout_in_millis   = "3000"
-    retries             = "3"
+    port              = "8080"
+    protocol          = "TCP"
+    interval_ms       = "10000"
+    timeout_in_millis = "3000"
+    retries           = "3"
   }
 }
 

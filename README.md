@@ -57,6 +57,53 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 8. When the job is finished, you will see the Load Balancer IP/URL for accessing Database Actions for your Autonomous Database. Login with the **ADMIN** user and the password you supplied when creating the job.
 
+
+## Deploy Using the Terraform CLI
+
+### Clone the Repository
+Now, you'll want a local copy of this repo. You can make that with the commands:
+
+    git clone https://github.com/oracle-quickstart/oci-arch-ords-ha.git
+    cd oci-arch-ords-ha
+    ls
+
+2. Create a `terraform.tfvars` file, and specify the following variables:
+
+```
+# Authentication
+tenancy_ocid         = "<tenancy_ocid>"
+user_ocid            = "<user_ocid>"
+fingerprint          = "<finger_print>"
+private_key_path     = "<pem_private_key_path>"
+
+# Region
+region = "<oci_region>"
+
+# Availability Domain 
+availability_domain = "<availability_domain_number>"
+### USE ONE ^ OR THE OTHER v
+availability_domain_name = "<availability_domain_name>"
+
+# Compartment
+compartment_ocid = "<compartment_ocid>"
+
+# database
+ATP_password           = "<ATP_user_password>"
+
+````
+
+### Create the Resources
+Run the following commands:
+
+    terraform init
+    terraform plan
+    terraform apply
+
+### Destroy the Deployment
+When you no longer need the deployment, you can run this command to destroy the resources:
+
+    terraform destroy
+
 ## Topology
 
 The following diagram shows the topology created by this stack.

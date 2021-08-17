@@ -32,7 +32,7 @@ variable "availability_domain_name" {
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.2"
+  default     = "1.0"
 }
 
 #variable "ssh_public_key" {
@@ -69,7 +69,9 @@ variable "linux_os_version" {
   default     = "7.9"
 }
 
-variable "number_of_midtiers" {}
+variable "number_of_midtiers" {
+  default = 1
+}
 
 variable "instance_shape" {
   default = "VM.Standard.E4.Flex"
