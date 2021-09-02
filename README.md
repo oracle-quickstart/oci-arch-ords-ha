@@ -109,3 +109,10 @@ When you no longer need the deployment, you can run this command to destroy the 
 The following diagram shows the topology created by this stack.
 
 # ![OCI ORDS HA Arch diagram](./images/ha-ords-oci.png)
+
+## Known Issues
+When using an Autonomous Database with a Private Endpoint, you will recieve the following error:
+
+Error Message: Failed to create a private endpoint for the Autonomous Database because OBO tokens are not supported for use with a private endpoint.
+
+Workaround: Use an Autonomous Database with a public endpoint 
