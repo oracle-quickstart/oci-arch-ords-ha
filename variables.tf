@@ -98,7 +98,7 @@ variable "ATP_database_data_storage_size_in_tbs" {
 }
 
 variable "ATP_database_db_name" {
-  default = "aTFdb"
+  default = "ORDSATP"
 }
 
 variable "ATP_database_db_version" {
@@ -110,7 +110,7 @@ variable "ATP_database_defined_tags_value" {
 }
 
 variable "ATP_database_display_name" {
-  default = "ATP"
+  default = "ORDSATP"
 }
 
 variable "ATP_database_freeform_tags" {
@@ -124,7 +124,7 @@ variable "ATP_database_license_model" {
 }
 
 variable "ATP_tde_wallet_zip_file" {
-  default = "tde_wallet_aTFdb.zip"
+  default = "tde_wallet_ORDSATP.zip"
 }
 
 variable "ATP_private_endpoint_label" {
