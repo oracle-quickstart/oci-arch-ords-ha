@@ -1,17 +1,15 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 # ADB Wallet
 
 resource "local_file" "autonomous_data_warehouse_wallet_file" {
   content_base64 = module.oci-adb.adb_database.adb_wallet_content
-  #  content_base64 = oci_database_autonomous_database_wallet.ATP_database_wallet.content
-  filename = var.ATP_tde_wallet_zip_file
+  filename       = var.ATP_tde_wallet_zip_file
 }
 
 
 resource "null_resource" "compute-script1" {
-  #  depends_on = [oci_core_instance.compute_instance, oci_database_autonomous_database.ATPdatabase, oci_core_network_security_group_security_rule.ATPSecurityEgressGroupRule, oci_core_network_security_group_security_rule.ATPSecurityIngressGroupRules]
   depends_on = [oci_core_instance.compute_instance, module.oci-adb.adb_database, oci_core_network_security_group_security_rule.ATPSecurityEgressGroupRule, oci_core_network_security_group_security_rule.ATPSecurityIngressGroupRules]
 
   count = var.number_of_midtiers

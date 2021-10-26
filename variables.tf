@@ -1,4 +1,4 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 # Variables
@@ -6,21 +6,21 @@ variable "tenancy_ocid" {}
 variable "compartment_ocid" {
   default = ""
 }
-variable "user_ocid" {
-  default = ""
-}
-variable "fingerprint" {
-  default = ""
-}
-variable "private_key" {
-  default = ""
-}
-variable "private_key_path" {
-  default = ""
-}
-variable "private_key_password" {
-  default = ""
-}
+#variable "user_ocid" {
+#  default = ""
+#}
+#variable "fingerprint" {
+#  default = ""
+#}
+#variable "private_key" {
+#  default = ""
+#}
+#variable "private_key_path" {
+#  default = ""
+#}
+#variable "private_key_password" {
+#  default = ""
+#}
 variable "region" {}
 variable "ATP_password" {}
 variable "availability_domain" {
